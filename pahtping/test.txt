@@ -1,0 +1,13 @@
+#行数取得
+$row = (Get-Content .\nettest.csv).Length
+
+#行列を変数に代入
+$line = Import-Csv .\nettest.csv
+
+for ($i=1; $i -lt 3; $i++){
+	pathping -n $line[$i].ip
+	pathping -n $line[$i].ip
+	pathping -n $line[$i].ip
+}
+
+pause
