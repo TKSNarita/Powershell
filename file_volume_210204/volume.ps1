@@ -30,8 +30,8 @@ echo "これからフォルダ内のファイルリスト取得を開始しま�
 
 for ($i=0; $i -lt $row-2; $i++){
 
-    Get-ChildItem $dirl[$i].FullName -File -Recurse | Sort-Object -Property LastWriteTime | Select-Object -Last 3 | Select-Object Name,FullName,Length,LastWriteTime | Export-Csv -Encoding Default $path/filename_last10master.csv -append
-    Get-ChildItem $dirl[$i].FullName -File -Recurse | Sort-Object -Property Length | Select-Object -Last 1 | Select-Object Name,FullName,Length,LastWriteTime | Export-Csv -Encoding Default $path/filename_volume1master.csv -append      
+    Get-ChildItem $dirl[$i].FullName -File -Recurse | Sort-Object -Property LastWriteTime | Select-Object -First 10 | Select-Object Name,FullName,Length,LastWriteTime | Export-Csv -Encoding Default $path/filename_last10master.csv -append
+    Get-ChildItem $dirl[$i].FullName -File -Recurse | Sort-Object -Property Length | Select-Object -First 1 | Select-Object Name,FullName,Length,LastWriteTime | Export-Csv -Encoding Default $path/filename_volume1master.csv -append      
 
     echo ""
     $com = '【進捗】' + ($i+1) + '/' + ($row-2) + '　ファイルリスト取得中'
