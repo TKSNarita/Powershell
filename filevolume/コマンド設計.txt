@@ -1,0 +1,71 @@
+
+#探索するカレントディレクトリを指定
+cd 
+
+#カレントディレクトリ配下（サブディレクトリ含む)を探索してdirlist.csvにエクスポート
+Get-ChildItem * -Recurse | Where-Object { $_.PSIsContainer } | Select-Object Name, FullName, LastWriteTime | Export-Csv -Encoding UTF8 ./dirlist.csv
+
+#dirlist.csvの行数を取得してrowに代入
+$row = (Get-Content .\dirlist.csv).Length
+
+#dirlist.csvをリスト形式で変数dirlに代入
+$dirl = Import-Csv .\dirlist.csv
+
+#For文を回す
+for ($i=0; $i -lt $row; $i++){
+
+    $date = Get-Date -Format "yyyy-MMdd-HHmmss"
+    $n1 = $line[$i].block + "_block_" + $j + "回目"
+
+    echo $n1 | Tee-Object -FilePath trace.log
+    echo $date | Tee-Object -FilePath trace.log
+    pathping -n $line[$i].ip | Tee-Object -FilePath trace.log
+
+    echo "---------------------------------------------------------------------------------------" | Tee-Object -FilePath trace.log
+
+#フォルダパスの更新日時が最新10個のファイルリスト抽出する
+#Get-ChildItem "フォルダのパス" -File -Recurse | Sort-Object -Property Length | Select-Object -Last 1 | Format-Table FullName,Length
+#Get-ChildItem "$dirl[$i].folderpass" -File -Recurse | Sort-Object -Property LastWriteTime | Select-Object -Last 3 | Select-Object FullName,Length | Export-Csv -Encoding Default ./filepassmaster.csv -append
+
+#フォルダパスの更新日時が最新10個のファイルリスト抽出する
+
+Get-ChildItem "C:\Users\tksna\OneDrive\ドキュメント\github\Powershell\Powershell\filevolume\test\c1" -File -Recurse | Sort-Object -Property LastWriteTime | Select-Object -Last 3 | Select-Object Name,FullName,Length,LastWriteTime | Export-Csv -Encoding Default ./filepassmaster.csv -append
+
+Get-ChildItem $dirl[2].FullName -File -Recurse | Sort-Object -Property LastWriteTime | Select-Object -Last 3 | Select-Object Name,FullName,Length,LastWriteTime | Export-Csv -Encoding Default ./filepassmaster.csv -append
+
+C:\Users\tksna\OneDrive\ドキュメント\github\Powershell\Powershell\filevolume\test\c2
+
+Get-ChildItem C:\Users\tksna\OneDrive\ドキュメント\github\Powershell\Powershell\filevolume\test\c2 -File -Recurse | Sort-Object -Property LastWriteTime | Select-Object -Last 3 | Select-Object Name,FullName,Length,LastWriteTime | Export-Csv -Encoding Default ./filepassmaster.csv -append
+
+
+
+
+
+
+
+
+
+#行数取得
+$row = (Get-Content .\nettest.csv).Length
+
+#行列を変数に代入
+$line = Import-Csv .\nettest.csv
+
+for ($j=1; $j -lt 4; $j++){
+
+    for ($i=0; $i -lt $row; $i++){
+
+    $date = Get-Date -Format "yyyy-MMdd-HHmmss"
+    $n1 = $line[$i].block + "_block_" + $j + "回目"
+
+    echo $n1 | Tee-Object -FilePath trace.log
+    echo $date | Tee-Object -FilePath trace.log
+    pathping -n $line[$i].ip | Tee-Object -FilePath trace.log
+
+    echo "---------------------------------------------------------------------------------------" | Tee-Object -FilePath trace.log
+
+    }
+
+}
+
+pause
